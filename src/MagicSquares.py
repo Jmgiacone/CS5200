@@ -20,6 +20,10 @@ def print_magic_square(square):
 def is_magic_square(square):
     n = len(square)
 
+    # There are no magic squares of n <= 2
+    if n <= 2:
+        return False
+
     # The number that every row, column, and diagonal needs to add up to
     magic_number = (n * (n ** 2 + 1)) // 2
 
@@ -47,6 +51,10 @@ def is_magic_square(square):
 
 
 def generate_magic_square(n):
+    # There are no magic squares of n <= 2
+    if n <= 2:
+        return None
+
     # Create a 2d array of size n x n
     magic_square = [0] * n
 
