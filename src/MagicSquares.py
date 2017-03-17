@@ -68,8 +68,8 @@ def generate_magic_square(n):
         # 1: n is odd
         row, column = 0, n // 2
 
-        for i in range(n ** 2):
-            magic_square[row][column] = counter
+        for i in range(1, n ** 2 + 1, 1):
+            magic_square[row][column] = i
 
             # Up 1, over 1
             r = (row - 1) % n
@@ -79,9 +79,6 @@ def generate_magic_square(n):
             if magic_square[r][c] != 0:
                 r = (row + 1) % n
                 c = column
-
-            # Increment counter
-            counter += 1
 
             # Copy over r, c values
             row, column = r, c
