@@ -1,5 +1,8 @@
+from copy import deepcopy
+
+
 def main():
-    square = generate_magic_square(3)
+    square = generate_magic_square(6)
 
     print_magic_square(square)
 
@@ -87,7 +90,23 @@ def generate_magic_square(n):
 
     elif n % 2 == 0 and n % 4 != 0:
         # 2: n is singly even (divisible by 2 but not by 4 -> 4n + 2)
-        pass
+
+        # Split the square into 4 parts of n/2 -> a, b, c ,d
+        half_size = n // 2
+        a_square = generate_magic_square(half_size)
+        b_square = deepcopy(a_square)
+        c_square = deepcopy(b_square)
+        d_square = deepcopy(c_square)
+
+        # Edit the values of squares b, c, and d
+        b_number = half_size ** 2
+        c_number = 2 * b_number
+        d_number = 3 * b_number
+        for i in range(half_size):
+            for j in range(half_size):
+                b_square[i][j] += b_number
+                c_square[i][j] += c_number
+                d_square[i][j] += d_number
     else:
         # n is doubly even (divisible by 2 and 4 -> 4n)
         pass
