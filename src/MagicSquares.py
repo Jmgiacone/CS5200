@@ -2,7 +2,7 @@ from copy import deepcopy
 
 
 def main():
-    square = generate_magic_square(6)
+    square = generate_magic_square(10)
 
     print_magic_square(square)
 
@@ -89,7 +89,16 @@ def generate_magic_square(n):
         return magic_square
 
     elif n % 2 == 0 and n % 4 != 0:
-        # 2: n is singly even (divisible by 2 but not by 4 -> 4n + 2)
+        # 2: n is singly even (divisible by 2 but not by 4 -> 4k + 2)
+
+        # Generate the k value
+        k = (n - 2) // 4
+
+        # Left-hand column width
+        a_d_column_width = k
+
+        # Right-hand column width
+        c_b_column_width = k - 1
 
         # Split the square into 4 parts of n/2 -> a, b, c ,d
         half_size = n // 2
@@ -107,6 +116,30 @@ def generate_magic_square(n):
                 b_square[i][j] += b_number
                 c_square[i][j] += c_number
                 d_square[i][j] += d_number
+
+        # Generate a list of indices corresponding to the left-hand column
+        a_index_list = [0] * (half_size * a_d_column_width)
+        d_index_list = [0] * (half_size * a_d_column_width)
+        halfway_index = half_size // 2
+        for i in range(half_size):
+            for j in range(a_d_column_width):
+                offset = 0
+                if i == halfway_index:
+                    # Push everything over by 1 column
+                    offset = 1
+
+                a_index_list[i * a_d_column_width + j] = i, j + offset
+                d_index_list[i * a_d_column_width + j] = i, j + offset
+
+                temp = a_square[i][j + offset]
+                a_square[i][j + offset] = d_square[i][j + offset]
+                d_square[i][j + offset] = temp
+
+        for i in range(half_size):
+            for j in range(c_b_column_width):
+                temp = c_square[i][half_size - 1 - j]
+                c_square[i][half_size - 1 - j] = b_square[i][half_size - 1 - j]
+                b_square[i][half_size - 1 - j] = temp
     else:
         # n is doubly even (divisible by 2 and 4 -> 4n)
         pass
