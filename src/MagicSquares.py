@@ -109,7 +109,8 @@ def generate_magic_square(n):
         c_square = deepcopy(b_square)
         d_square = deepcopy(c_square)
 
-        # Edit the values of squares b, c, and d
+        # Edit the values of squares b, c, and d. Make it look as if these magic squares were started at different
+        # numbers than they actually were: n^2/4 + 1, n^2/2 + 1, and 3n^2/2 + 1 specifically
         b_number = half_size ** 2
         c_number = 2 * b_number
         d_number = 3 * b_number
@@ -119,10 +120,10 @@ def generate_magic_square(n):
                 c_square[i][j] += c_number
                 d_square[i][j] += d_number
 
-        # Generate a list of indices corresponding to the left-hand column
-        a_index_list = [0] * (half_size * a_d_column_width)
-        d_index_list = [0] * (half_size * a_d_column_width)
+        # The halfway index is where we shift everything over one column
         halfway_index = half_size // 2
+
+        # Generate a rectangle of n/2 x k and push the middle over by one in both a and d
         for i in range(half_size):
             for j in range(a_d_column_width):
                 offset = 0
@@ -130,15 +131,15 @@ def generate_magic_square(n):
                     # Push everything over by 1 column
                     offset = 1
 
-                a_index_list[i * a_d_column_width + j] = i, j + offset
-                d_index_list[i * a_d_column_width + j] = i, j + offset
-
+                # Swap these values between a and d
                 temp = a_square[i][j + offset]
                 a_square[i][j + offset] = d_square[i][j + offset]
                 d_square[i][j + offset] = temp
 
+        # Generate a rectangle of n/2 x k-1 and swap them between c and b
         for i in range(half_size):
             for j in range(c_b_column_width):
+                # Swap
                 temp = c_square[i][half_size - 1 - j]
                 c_square[i][half_size - 1 - j] = b_square[i][half_size - 1 - j]
                 b_square[i][half_size - 1 - j] = temp
@@ -159,7 +160,6 @@ def generate_magic_square(n):
                 magic_square[i + half_size][j + half_size] = b_square[i][j]
 
         return magic_square
-
     else:
         # n is doubly even (divisible by 2 and 4 -> 4n)
         pass
