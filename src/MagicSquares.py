@@ -140,6 +140,24 @@ def generate_magic_square(n):
                 temp = c_square[i][half_size - 1 - j]
                 c_square[i][half_size - 1 - j] = b_square[i][half_size - 1 - j]
                 b_square[i][half_size - 1 - j] = temp
+
+        # Conquer the sub-problems
+        for i in range(half_size):
+            for j in range(half_size):
+                # Directly copy the upper-left quarter
+                magic_square[i][j] = a_square[i][j]
+
+                # Copy the upper-right quarter with a column shift
+                magic_square[i][j + half_size] = c_square[i][j]
+
+                # Copy the bottom-left quarter with a row shift
+                magic_square[i + half_size][j] = d_square[i][j]
+
+                # Copy the bottom-right quarter with a row and column shift
+                magic_square[i + half_size][j + half_size] = b_square[i][j]
+
+        return magic_square
+
     else:
         # n is doubly even (divisible by 2 and 4 -> 4n)
         pass
