@@ -8,11 +8,13 @@ def main():
 
     if not is_magic_square(square):
         print("Error!")
+    else:
+        print("This is a magic square!")
 
 
 def print_magic_square(square):
     n = len(square)
-    padding = len(str(n ** 2 - 1))
+    padding = len(str(n ** 2))
 
     for i in range(n):
         for j in range(n):
