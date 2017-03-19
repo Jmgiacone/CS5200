@@ -2,31 +2,32 @@ from copy import deepcopy
 
 
 def main():
-    for i in range(3, 51):
+    output_file = open("magic_square_output.txt", "w")
+
+    for i in [6, 8, 10, 12, 14, 16]:
         print("Magic square for n={}".format(i))
+        output_file.write("Magic square for n={}\n".format(i))
+
         square = generate_magic_square(i)
 
-        if square is not None:
-            print_magic_square(square)
+        string = print_magic_square(square)
 
-            if not is_magic_square(square):
-                print("Error!")
-                break
-            else:
-                print("This is a magic square!")
-        else:
-            print("Not implemented")
-        print()
+        print(string)
+        output_file.write(string + "\n")
 
 
 def print_magic_square(square):
     n = len(square)
     padding = len(str(n ** 2))
 
+    output = ""
+
     for i in range(n):
         for j in range(n):
-            print(str(square[i][j]).zfill(padding), end=" ")
-        print()
+            output += str(square[i][j]).zfill(padding) + " "
+        output += "\n"
+
+    return output
 
 
 def is_magic_square(square):
