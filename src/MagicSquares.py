@@ -2,14 +2,21 @@ from copy import deepcopy
 
 
 def main():
-    square = generate_magic_square(10)
+    for i in range(3, 51):
+        print("Magic square for n={}".format(i))
+        square = generate_magic_square(i)
 
-    print_magic_square(square)
+        if square is not None:
+            print_magic_square(square)
 
-    if not is_magic_square(square):
-        print("Error!")
-    else:
-        print("This is a magic square!")
+            if not is_magic_square(square):
+                print("Error!")
+                break
+            else:
+                print("This is a magic square!")
+        else:
+            print("Not implemented")
+        print()
 
 
 def print_magic_square(square):
@@ -65,9 +72,6 @@ def generate_magic_square(n):
 
     for i in range(n):
         magic_square[i] = [0] * n
-
-    # Initialize the counter
-    counter = 1
 
     if n % 2 == 1:
         # 1: n is odd
@@ -162,7 +166,45 @@ def generate_magic_square(n):
         return magic_square
     else:
         # n is doubly even (divisible by 2 and 4 -> 4n)
-        pass
+
+        # Divide this square into four rectangles, each sized n/2 x n/4
+        half_size = n // 2
+        quarter_size = n // 4
+
+        # Put these rectangles along each side of the square, at an offset of n/4
+        coordinate_set = set()
+
+        for i in range(half_size):
+            for j in range(quarter_size):
+                # Top rectangle
+                coordinate_set.add((j, i + quarter_size))
+
+                # Bottom rectangle
+                coordinate_set.add((j + (n - quarter_size), i + quarter_size))
+
+                # Left rectangle
+                coordinate_set.add((i + quarter_size, j))
+
+                # Right rectangle
+                coordinate_set.add((i + quarter_size, j + (n - quarter_size)))
+
+        # Initialize the counter
+        counter = 1
+
+        # Fill in the square
+        for i in range(n):
+            # If the coordinate is in one of the four rectangles, put in the counter normally,
+            # else put in n^2 + 1 - counter
+            for j in range(n):
+                if (i, j) in coordinate_set:
+                    magic_square[i][j] = counter
+                else:
+                    magic_square[i][j] = n**2 - counter + 1
+
+                counter += 1
+
+        return magic_square
+
 
 if __name__ == "__main__":
     main()
