@@ -4,7 +4,7 @@ import time
 
 
 def main():
-    output_file = open("results.txt", "w")
+    output_file = open("knights_tour_results.txt", "w")
     total_start = time.time()
     for i in [8, 12, 16, 20]:
         print("Running closed knight's tour on {}x{}".format(i, i))
