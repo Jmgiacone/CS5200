@@ -1,4 +1,4 @@
-from src.KnightsTourState import KnightsTourState
+from KnightsTourState import KnightsTourState
 from queue import PriorityQueue
 import time
 
