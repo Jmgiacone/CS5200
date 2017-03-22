@@ -35,7 +35,7 @@ def main():
     delta = total_end - total_start
 
     print("Total elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
-    output_file.write("Total elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
+    output_file.write("Total elapsed time: {} microseconds ({} seconds)\n".format(delta * 1000000, delta))
 
 
 def knights_tour(n, starting_square):
