@@ -51,9 +51,18 @@ def knights_tour(n, starting_square):
     # Set of visited states
     visited = set()
 
+    count = 0
     while not frontier.empty():
+        print("States in frontier: {}".format(len(frontier.queue)))
         # Treat this list as a queue
         current_state = frontier.get()
+
+        count += 1
+        print("Iteration {}".format(count))
+        print("Neighbors: {}".format(len(current_state.neighbors)))
+        print("Spaces visited: {}/{}".format(len(current_state.visited_locations), n**2))
+        print("Current State:")
+        print(get_current_board_string(current_state, n))
 
         # This state is now visited
         visited.add(current_state)
@@ -61,6 +70,8 @@ def knights_tour(n, starting_square):
         # Check if we've visited every square and we ended up back where we started
         if len(current_state.visited_locations) == n ** 2 and \
                         current_state.knight_location == current_state.starting_location:
+            print("Terminal state!")
+            print("Took {} iterations".format(count))
             ptr = current_state
             stack = []
 
@@ -71,22 +82,11 @@ def knights_tour(n, starting_square):
             return stack
 
         # Generate every move the knight can make from its current position
-        for m_t in movement_tuples:
-            r, c = current_state.knight_location
+        for square in current_state.neighbors:
+            neighbor = KnightsTourState(square, current_state, n)
 
-            r += m_t[0]
-            c += m_t[1]
-
-            # If this point is on the board
-            if 0 <= r < n and 0 <= c < n:
-                square = r, c
-
-                # Has this square been visited by the knight in this state yet?
-                if square not in current_state.visited_locations:
-                    neighbor = KnightsTourState(square, current_state, n)
-
-                    if neighbor not in visited:
-                        frontier.put(neighbor)
+            if neighbor not in visited:
+                frontier.put(neighbor)
 
     # Exhausted all states and haven't found a solution. Impossible
     return None
@@ -131,6 +131,8 @@ def get_current_board_string(state, n):
                     code = "S"
                 elif (n - r, f) in state.visited_locations:
                     code = "x"
+                elif (n - r, f) in state.neighbors:
+                    code = "*"
 
                 output += " " + code + " "
 

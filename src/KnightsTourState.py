@@ -5,7 +5,7 @@ class KnightsTourState:
     def __init__(self, knight_location, parent_state, n):
         self.n = n
         self.knight_location = knight_location
-        self.neighbors = 0
+        self.neighbors = []
 
         if parent_state is not None:
             self.visited_locations = deepcopy(parent_state.visited_locations)
@@ -31,7 +31,7 @@ class KnightsTourState:
 
                 # Has this square been visited by the knight in this state yet?
                 if square not in self.visited_locations:
-                    self.neighbors += 1
+                    self.neighbors.append(square)
 
     def __lt__(self, other):
         our_visited = len(self.visited_locations)
@@ -40,10 +40,12 @@ class KnightsTourState:
         our_distance = abs(self.knight_location[0] - self.starting_location[0]) + abs(self.knight_location[1] - self.starting_location[1])
         their_distance = abs(other.knight_location[0] - other.starting_location[0]) + abs(other.knight_location[1] - other.starting_location[1])
 
+        our_neighbors = len(self.neighbors)
+        their_neighbors = len(other.neighbors)
         if our_visited == their_visited:
             if our_distance == their_distance:
-                if self.neighbors != 0:
-                    return self.neighbors < other.neighbors
+                if our_neighbors != 0:
+                    return our_neighbors < their_neighbors
 
                 return False
             return our_distance > their_distance
