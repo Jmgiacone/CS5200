@@ -1,5 +1,6 @@
 from random import randrange, randint
-
+from queue import PriorityQueue
+from math import inf
 
 def main():
     # Create the data structure for storing a graph
@@ -19,6 +20,47 @@ def main():
             # TODO: Run Kruskal's
             # TODO: Run Dijkstra's
             # TODO: Run Floyd-Warshall
+
+
+def prims_algorithm(graph, start_node):
+    # Create an empty adjacency-dict
+    mst = [{} for i in range(len(graph))]
+
+    # Create a visited set
+    visited = set()
+
+    # Create a new PriorityQueue (Heap)
+    frontier = PriorityQueue()
+
+    # Maintain a parent dictionary
+    pi = {i: None for i in range(len(graph))}
+
+    # Maintain a key dictionary
+    key = {i: inf for i in range(len(graph))}
+
+    key[start_node] = 0
+
+    # Put the start node inside
+    frontier.put((0, start_node))
+
+    # Count the number of nodes added so far
+    nodes_added = 1
+    while len(visited) != len(graph):
+        node = frontier.get()[1]
+        visited.add(node)
+
+        # Add the edge to the graph
+        if pi[node] is not None:
+            mst[pi[node]][node] = key[node]
+            nodes_added += 1
+
+        for neighbor, weight in graph[node].items():
+            if neighbor not in visited and weight < key[neighbor]:
+                pi[neighbor] = node
+                key[neighbor] = weight
+                frontier.put((weight, neighbor))
+
+    return mst
 
 
 def random_graph(num_nodes, density, undirected=False):
