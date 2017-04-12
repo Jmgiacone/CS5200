@@ -22,6 +22,45 @@ def main():
             # TODO: Run Floyd-Warshall
 
 
+def kruskals_algorithm(graph):
+    # Create an empty adjacency-dict
+    mst = [{} for i in range(len(graph))]
+
+    # Create a list of edges and their weights
+    edges = []
+    seen_edges = set()
+    for u in range(len(graph)):
+        for v in graph[u]:
+            if (u, v) not in seen_edges:
+                edges.append((graph[u][v], (u, v)))
+                seen_edges.add((u, v))
+                seen_edges.add((v, u))
+
+    edges.sort(key=lambda edge: edge[0])
+
+    # Keep a list of sets to keep track of the trees
+    trees = [{node} for node in range(len(graph))]
+
+    # Iterate over each edge
+    for edge in edges:
+        weight = edge[0]
+        u, v = edge[1]
+
+        if trees[u].isdisjoint(trees[v]):
+            # Add the edge to the MST
+            mst[u][v] = weight
+            mst[v][u] = weight
+
+            # Union the two sets
+            trees[u].update(trees[v])
+
+            # Update all other sets
+            for node in trees[u]:
+                trees[node] = trees[u]
+
+    return mst
+
+
 def prims_algorithm(graph, start_node):
     # Create an empty adjacency-dict
     mst = [{} for i in range(len(graph))]
