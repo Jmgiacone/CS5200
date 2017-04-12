@@ -22,6 +22,22 @@ def main():
             # TODO: Run Floyd-Warshall
 
 
+def floyd_warshall(graph):
+    # Create the weight matrix, with special condition of inf if there isn't an edge connecting two nodes
+    adj_matrix = [[inf if i != j else 0 for j in range(len(graph))] for i in range(len(graph))]
+
+    for i in range(len(graph)):
+        for j, val in graph[i].items():
+            adj_matrix[i][j] = val
+
+    for k in range(len(graph)):
+        for i in range(len(graph)):
+            for j in range(len(graph)):
+                adj_matrix[i][j] = min(adj_matrix[i][j], adj_matrix[i][k] + adj_matrix[k][j])
+
+    return adj_matrix
+
+
 def kruskals_algorithm(graph):
     # Create an empty adjacency-dict
     mst = [{} for i in range(len(graph))]
