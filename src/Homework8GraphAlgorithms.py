@@ -16,8 +16,9 @@ def main():
         max_density = max_edges / n
         # TODO: Make this configurable
         for i in range(10):
-            graph = random_graph(n, (i + 1) * max_density / 10)
-            print("n={}, d={}".format(n, (i + 1) * max_density / 10))
+            d = (i + 1) * max_density / 10
+            graph = random_graph(n, d)
+            print("n={}, d={}".format(n, d))
             print(convert_to_dot_syntax(graph))
             print()
 
@@ -32,8 +33,8 @@ def main():
             print()
 
             print("Generating digraph")
-            graph = random_graph(n, (i + 1) * max_density / 10, False)
-            print("n={}, d={}".format(n, (i + 1) * max_density / 10))
+            graph = random_graph(n, d, False)
+            print("n={}, d={}".format(n, d))
             print(convert_to_dot_syntax(graph, True))
             print()
 
