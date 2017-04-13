@@ -183,6 +183,31 @@ def create_adjacency_matrix_from_adjacency_list(adj_list):
     return matrix
 
 
+def convert_to_dot_syntax(graph, directed=False):
+    # The arrows are different depending on whether or not the graph is directed
+    if directed:
+        text = "digraph "
+        arrow = "->"
+    else:
+        text = "graph "
+        arrow = "--"
+
+    # Start the file off with the graph name and an opening curly brace
+    text += "G\n{\n"
+
+    # Grab the number of nodes
+    n = len(graph)
+
+    # Loop over the edges
+    for u in range(n):
+        for v in graph[u]:
+            text += "  {} {} {} [label=\"{}\"];\n".format(u, arrow, v, graph[u][v])
+
+    # Add in the closing curly brace
+    text += "}\n"
+
+    print(text)
+
 def print_adjacency_matrix(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix)):
