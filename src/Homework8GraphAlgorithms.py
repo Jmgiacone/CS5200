@@ -71,7 +71,7 @@ def kruskals_algorithm(graph):
             trees[u].update(trees[v])
 
             # Update all other sets
-            for node in trees[u]:
+            for node in trees[u] - {u}:
                 trees[node] = trees[u]
 
     return mst
