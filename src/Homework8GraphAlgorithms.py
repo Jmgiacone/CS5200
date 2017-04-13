@@ -203,11 +203,12 @@ def create_adjacency_matrix_from_adjacency_list(adj_list):
 
 def convert_to_dot_syntax(graph, directed=False):
     # The arrows are different depending on whether or not the graph is directed
+    text = "strict "
     if directed:
-        text = "digraph "
+        text += "digraph "
         arrow = "->"
     else:
-        text = "graph "
+        text += "graph "
         arrow = "--"
 
     # Start the file off with the graph name and an opening curly brace
