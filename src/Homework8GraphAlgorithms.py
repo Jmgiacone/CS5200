@@ -2,6 +2,7 @@ from random import randrange, randint
 from queue import PriorityQueue
 from math import inf
 
+
 def main():
     # Create the data structure for storing a graph
     # Use a list of dictionaries, where each dict is int->int
