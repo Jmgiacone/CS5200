@@ -226,6 +226,12 @@ def convert_to_dot_syntax(graph, directed=False):
 
     return text
 
+
+def dijkstras_algorithm(graph, start_node):
+    # TODO: Implement this
+    return 0
+
+
 def print_adjacency_matrix(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix)):
