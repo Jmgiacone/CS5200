@@ -206,7 +206,7 @@ def convert_to_dot_syntax(graph, directed=False):
     # Add in the closing curly brace
     text += "}\n"
 
-    print(text)
+    return text
 
 def print_adjacency_matrix(matrix):
     for i in range(len(matrix)):
