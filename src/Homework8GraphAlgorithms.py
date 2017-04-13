@@ -168,8 +168,9 @@ def random_graph(num_nodes, density, directed=False):
         # Connect the nodes forward
         graph[i][i + 1] = weight
 
-        # Connect the nodes backward
-        graph[i + 1][i] = weight
+        if not directed:
+            # Connect the nodes backward
+            graph[i + 1][i] = weight
 
     # We're allowed to create density * num_nodes edges overall
     num_edges = int(density * num_nodes)
