@@ -19,19 +19,23 @@ def main():
             graph = random_graph(n, (i + 1) * max_density / 10)
             print("n={}, d={}".format(n, (i + 1) * max_density / 10))
             print(convert_to_dot_syntax(graph))
+            print()
 
             print("Kruskal's Minimum Spanning Tree")
             mst = kruskals_algorithm(graph)
             print(convert_to_dot_syntax(mst))
+            print()
 
             print("Prim's Minimum Spanning Tree")
             mst = prims_algorithm(graph, randrange(n))
             print(convert_to_dot_syntax(mst, True))
+            print()
 
             print("Generating digraph")
             graph = random_graph(n, (i + 1) * max_density / 10, False)
             print("n={}, d={}".format(n, (i + 1) * max_density / 10))
             print(convert_to_dot_syntax(graph, True))
+            print()
 
             print("Dijkstra's one-to-all shortest path")
             dijkstras = dijkstras_algorithm(graph, randrange(n))
@@ -223,7 +227,7 @@ def convert_to_dot_syntax(graph, directed=False):
             text += "  {} {} {} [label=\"{}\"];\n".format(u, arrow, v, graph[u][v])
 
     # Add in the closing curly brace
-    text += "}\n"
+    text += "}"
 
     return text
 
