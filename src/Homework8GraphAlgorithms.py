@@ -12,11 +12,15 @@ def main():
     for n in [10, 20, 30, 40, 50]:
         # Max edges: n(n-1) -> directed
         #            (n(n-1))/2 -> undirected
-        max_edges = n * (n - 1) / 2
-        max_density = max_edges / n
+        max_edges_directed = n * (n - 1)
+        max_edges_undirected = max_edges_directed / 2
+
+        max_density_directed = max_edges_directed / n
+        max_density_undirected = max_edges_undirected / n
+
         # TODO: Make this configurable
         for i in range(10):
-            d = (i + 1) * max_density / 10
+            d = (i + 1) * max_density_undirected / 10
             graph = random_graph(n, d)
             print("n={}, d={}".format(n, d))
             print(convert_to_dot_syntax(graph))
@@ -32,8 +36,10 @@ def main():
             print(convert_to_dot_syntax(mst, True))
             print()
 
+            d = (i + 1) * max_density_directed / 10
+
             print("Generating digraph")
-            graph = random_graph(n, d, False)
+            graph = random_graph(n, d, True)
             print("n={}, d={}".format(n, d))
             print(convert_to_dot_syntax(graph, True))
             print()
@@ -141,7 +147,7 @@ def prims_algorithm(graph, start_node):
     return mst
 
 
-def random_graph(num_nodes, density, undirected=False):
+def random_graph(num_nodes, density, directed=False):
     # Generate an empty adjacency-dict
     # An adjacency-dict looks similar to and adjacency list, except has constant-time edge lookups
     # Example:
@@ -171,6 +177,8 @@ def random_graph(num_nodes, density, undirected=False):
     # Since the graph has to be connected, we have to add n-1 edges off the bat
     current_edges = num_nodes - 1
 
+    current_edges *= 2 if directed else 1
+
     # Loop until we fill the requisite number of edges
     while current_edges < num_edges:
         # Choose two random nodes
@@ -183,7 +191,7 @@ def random_graph(num_nodes, density, undirected=False):
             weight = randint(1, 100)
             graph[start][end] = weight
 
-            if undirected:
+            if not directed:
                 # Add the edge the other way
                 graph[end][start] = weight
 
