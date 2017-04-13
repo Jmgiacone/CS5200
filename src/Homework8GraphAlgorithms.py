@@ -17,10 +17,27 @@ def main():
         # TODO: Make this configurable
         for i in range(10):
             graph = random_graph(n, (i + 1) * max_density / 10)
-            # TODO: Run Prim's
-            # TODO: Run Kruskal's
-            # TODO: Run Dijkstra's
-            # TODO: Run Floyd-Warshall
+            print("n={}, d={}".format(n, (i + 1) * max_density / 10))
+            print(convert_to_dot_syntax(graph))
+
+            print("Kruskal's Minimum Spanning Tree")
+            mst = kruskals_algorithm(graph)
+            print(convert_to_dot_syntax(mst))
+
+            print("Prim's Minimum Spanning Tree")
+            mst = prims_algorithm(graph, randrange(n))
+            print(convert_to_dot_syntax(mst, True))
+
+            print("Generating digraph")
+            graph = random_graph(n, (i + 1) * max_density / 10, False)
+            print("n={}, d={}".format(n, (i + 1) * max_density / 10))
+            print(convert_to_dot_syntax(graph, True))
+
+            print("Dijkstra's one-to-all shortest path")
+            dijkstras = dijkstras_algorithm(graph, randrange(n))
+
+            print("Floyd-Warshall all-pairs shortest path")
+            floyd_warshalls = floyd_warshall(graph)
 
 
 def floyd_warshall(graph):
