@@ -402,10 +402,14 @@ def transitive_closure(graph):
 
 
 def print_adjacency_matrix(matrix):
+    text = ""
+
     for i in range(len(matrix)):
         for j in range(len(matrix)):
-            print(str(matrix[i][j]).zfill(3), end=" ")
-        print()
+            text += str(matrix[i][j]).zfill(3) + " "
+        text += "\n"
+
+    return text
 
 if __name__ == '__main__':
     main()
