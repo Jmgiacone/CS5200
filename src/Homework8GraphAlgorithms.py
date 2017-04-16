@@ -280,13 +280,13 @@ def dijkstras_algorithm(graph, start_node):
                 frontier.put((new_dist, neighbor))
 
     # Return minimum distance from start to every other node
-    return d
+    return d, pi
 
 
 def print_adjacency_matrix(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix)):
-            print(matrix[i][j], end=" ")
+            print(str(matrix[i][j]).zfill(3), end=" ")
         print()
 
 if __name__ == '__main__':
