@@ -387,6 +387,20 @@ def dijkstras_algorithm(graph, start_node):
     return d, pi
 
 
+def transitive_closure(graph):
+    # Copy the graph, set edge weights to 1, then pass it to floyd-warshall
+    copy_graph = {}
+
+    for i in range(len(graph)):
+        neighbors = graph[i]
+        copy_graph[i] = {}
+
+        for neighbor in neighbors:
+            copy_graph[i][neighbor] = 1
+
+    return floyd_warshall(copy_graph)
+
+
 def print_adjacency_matrix(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix)):
