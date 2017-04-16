@@ -1,6 +1,9 @@
-from random import randrange, randint
+from random import randrange, randint, seed
+import sys
 from queue import PriorityQueue
 from math import inf
+from os.path import exists
+from os import makedirs
 
 
 def main():
@@ -8,8 +11,37 @@ def main():
     # Use a list of dictionaries, where each dict is int->int
     # Where the first int is the node id and the second is the weight of the edge
 
+    # Create a directory for our graph output
+    if not exists("graph_output"):
+        makedirs("graph_output")
+
+    # Seed the random generator
+    rand_seed = randint(0, sys.maxsize)
+    seed(rand_seed)
+
+    # Create a directory for this seed value
+    working_directory = "graph_output/seed_{}/".format(rand_seed)
+    makedirs(working_directory)
+
+    # Have a list hold all the graphs until we want to visualize them
+    graphs = []
+
+    # sfdp -Tpng dotExample.dot -Gsplines=true -Goverlap=scale -o dotOutput.png
+
+    # Keep a counter for filenames
+    counter = 1
+
+    # Open up three files: one to hold output of Dijkstra's, one to hold output of Floyd-Warshall, and one for the TC
+    dijkstra_out = open(working_directory + "dijkstra_output.txt", "w")
+    floyd_warshall_out = open(working_directory + "floyd_warshall_output.txt", "w")
+    transitive_closure_out = open(working_directory + "transitive_closure_output.txt",  "w")
+
     # Generate random graphs
     for n in [10, 20, 30, 40, 50]:
+        # Create this directory
+        folder_directory = "{}/size_{}/".format(working_directory, n)
+        makedirs(folder_directory)
+
         # Max edges: n(n-1) -> directed
         #            (n(n-1))/2 -> undirected
         max_edges_directed = n * (n - 1)
@@ -22,33 +54,105 @@ def main():
         for i in range(10):
             d = (i + 1) * max_density_undirected / 10
             graph = random_graph(n, d)
-            print("n={}, d={}".format(n, d))
-            print(convert_to_dot_syntax(graph))
+
+            print("n={} e={} d={}".format(n, max(n - 1, int(d * n)), d))
+            dot_syntax = convert_to_dot_syntax(graph)
+            print(dot_syntax)
             print()
+
+            filename = "undirected_graph_{}.dot".format(counter)
+
+            # Write the file
+            file = open(folder_directory + filename, "w")
+            file.write(dot_syntax)
+
+            # Add the entry to the list
+            graphs.append(filename)
 
             print("Kruskal's Minimum Spanning Tree")
             mst = kruskals_algorithm(graph)
-            print(convert_to_dot_syntax(mst))
+            dot_syntax = convert_to_dot_syntax(mst)
+            print(dot_syntax)
+
+            filename = "mst_kruskal_{}.dot".format(counter)
+
+            # Write the file
+            file = open(folder_directory + filename, "w")
+            file.write(dot_syntax)
+
+            # Add the entry to the list
+            graphs.append(filename)
+
             print()
 
             print("Prim's Minimum Spanning Tree")
             mst = prims_algorithm(graph, randrange(n))
-            print(convert_to_dot_syntax(mst, True))
+            dot_syntax = convert_to_dot_syntax(mst, True)
+            print(dot_syntax)
+            filename = "mst_prim_{}.dot".format(counter)
+
+            # Write the file
+            file = open(folder_directory + filename, "w")
+            file.write(dot_syntax)
+
+            # Add the entry to the list
+            graphs.append(filename)
             print()
 
             d = (i + 1) * max_density_directed / 10
 
             print("Generating digraph")
             graph = random_graph(n, d, True)
-            print("n={}, d={}".format(n, d))
-            print(convert_to_dot_syntax(graph, True))
+
+            # Add the filename of the graph
+            print("n={}, e={}, d={}".format(n, max(n - 1, int(d * n)), d))
+
+            dot_syntax = convert_to_dot_syntax(graph, True)
+            print(dot_syntax)
             print()
 
-            print("Dijkstra's one-to-all shortest path")
-            dijkstras = dijkstras_algorithm(graph, randrange(n))
+            filename = "directed_graph_{}.dot".format(counter)
+
+            # Write the file
+            file = open(folder_directory + filename, "w")
+            file.write(dot_syntax)
+
+            # Add the entry to the list
+            graphs.append(filename)
+
+            print("Dijkstra's one-to-all shortest path starting at node 0")
+            dijkstras_dist, dijkstras_pi = dijkstras_algorithm(graph, 0)
+            print("d: {}".format(dijkstras_dist))
+            print("pi: {}\n".format(dijkstras_pi))
+
+            # Print to file
+            dijkstra_out.write("Digraph id: {}\n".format(counter))
+            dijkstra_out.write("d: {}\n".format(dijkstras_dist))
+            dijkstra_out.write("pi: {}\n\n".format(dijkstras_pi))
 
             print("Floyd-Warshall all-pairs shortest path")
             floyd_warshalls = floyd_warshall(graph)
+            output = print_adjacency_matrix(floyd_warshalls)
+            print(output)
+            print()
+
+            # Print to file
+            floyd_warshall_out.write("Digraph id: {}\n".format(counter))
+            floyd_warshall_out.write(output + "\n")
+
+            print("Transitive closure")
+            transitive_closure_matrix = transitive_closure(graph)
+            output = print_adjacency_matrix(transitive_closure_matrix)
+            print(output)
+
+            # Print to file
+            transitive_closure_out.write("Transitive closure matrix of id: {}\n".format(counter))
+            transitive_closure_out.write(output + "\n")
+
+            # Increment the counter
+            counter += 1
+
+    return 0
 
 
 def floyd_warshall(graph):
