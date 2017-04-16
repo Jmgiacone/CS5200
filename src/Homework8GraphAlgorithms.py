@@ -178,8 +178,6 @@ def random_graph(num_nodes, density, directed=False):
     # Since the graph has to be connected, we have to add n-1 edges off the bat
     current_edges = num_nodes - 1
 
-    current_edges *= 2 if directed else 1
-
     # Loop until we fill the requisite number of edges
     while current_edges < num_edges:
         # Choose two random nodes
