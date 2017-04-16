@@ -243,8 +243,46 @@ def convert_to_dot_syntax(graph, directed=False):
 
 
 def dijkstras_algorithm(graph, start_node):
-    # TODO: Implement this
-    return 0
+    n = len(graph)
+
+    # Need two dicts: one to hold shortest distances and one to hold predecessors
+    d = {node: inf for node in range(n)}
+    d[start_node] = 0
+    pi = {node: None for node in range(n)}
+
+    # Keep track of visited nodes
+    visited = set()
+
+    # Update d[source]
+    d[start_node] = 0
+
+    # Load the PQueue
+    frontier = PriorityQueue()
+    frontier.put((0, start_node))
+
+    # While there are still nodes left to visit
+    while len(visited) < n:
+        # Grab highest priority node
+        current_node = frontier.get()[1]
+
+        # Mark this node visited
+        visited.add(current_node)
+
+        # Look at its neighbors
+        for neighbor in graph[current_node]:
+            new_dist = graph[current_node][neighbor] + d[current_node]
+
+            # If going through this node is better than whatever else it was doing
+            if neighbor not in visited and new_dist < d[neighbor]:
+                # Update dict values
+                d[neighbor] = new_dist
+                pi[neighbor] = current_node
+
+                # Add it to the frontier
+                frontier.put((new_dist, neighbor))
+
+    # Return minimum distance from start to every other node
+    return d
 
 
 def print_adjacency_matrix(matrix):
