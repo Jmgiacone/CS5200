@@ -3,7 +3,8 @@ import sys
 from queue import PriorityQueue
 from math import inf
 from os.path import exists
-from os import makedirs
+from os import makedirs, chdir, listdir
+from subprocess import run
 
 
 def main():
@@ -152,6 +153,25 @@ def main():
             # Increment the counter
             counter += 1
 
+    print("Generating graphs...")
+    chdir(working_directory)
+
+    for n in [10, 20, 30, 40, 50]:
+        folder_directory = "size_{}/".format(n)
+
+        print("Entering directory {}".format(folder_directory))
+
+        # Change to that directory
+        chdir(folder_directory)
+
+        for file in listdir("./"):
+            print("Generating graph based on {}".format(file))
+            run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]), shell=True)
+
+        print()
+        chdir("..")
+
+    print("All output can be found in {}".format(working_directory))
     return 0
 
 
