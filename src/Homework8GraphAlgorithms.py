@@ -170,8 +170,6 @@ def main():
                 run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]),
                     stdout=PIPE, stderr=PIPE, shell=True)
 
-            if completed_process.returncode != 0:
-                print("Non-zero exit code: {}!".format(completed_process.returncode))
 
         print()
         chdir("..")
