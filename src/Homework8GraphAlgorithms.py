@@ -4,7 +4,7 @@ from queue import PriorityQueue
 from math import inf
 from os.path import exists
 from os import makedirs, chdir, listdir
-from subprocess import run
+from subprocess import run, PIPE
 
 
 def main():
@@ -166,7 +166,12 @@ def main():
 
         for file in listdir("./"):
             print("Generating graph based on {}".format(file))
-            run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]), shell=True)
+            completed_process = \
+                run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]),
+                    stdout=PIPE, stderr=PIPE, shell=True)
+
+            if completed_process.returncode != 0:
+                print("Non-zero exit code: {}!".format(completed_process.returncode))
 
         print()
         chdir("..")
