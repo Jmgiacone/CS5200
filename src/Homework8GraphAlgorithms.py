@@ -55,7 +55,7 @@ def main():
             d = (i + 1) * max_density_undirected / 10
             graph = random_graph(n, d)
 
-            print("n={} e={} d={}".format(n, max(n - 1, int(d * n)), d))
+            print("Undirected Graph {} - n={} e={} d={}".format(counter, n, max(n - 1, int(d * n)), d))
             dot_syntax = convert_to_dot_syntax(graph)
             print(dot_syntax)
             print()
@@ -105,7 +105,7 @@ def main():
             graph = random_graph(n, d, True)
 
             # Add the filename of the graph
-            print("n={}, e={}, d={}".format(n, max(n - 1, int(d * n)), d))
+            print("Directed graph {} - n={}, e={}, d={}".format(counter, n, max(n - 1, int(d * n)), d))
 
             dot_syntax = convert_to_dot_syntax(graph, True)
             print(dot_syntax)
