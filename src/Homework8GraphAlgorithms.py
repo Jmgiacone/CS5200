@@ -5,6 +5,7 @@ from math import inf
 from os.path import exists
 from os import makedirs, chdir, listdir
 from subprocess import run, PIPE
+from time import time
 
 
 def main():
@@ -70,7 +71,11 @@ def main():
             graphs.append(filename)
 
             print("Kruskal's Minimum Spanning Tree")
+            start = time()
             mst = kruskals_algorithm(graph)
+            end = time()
+            delta = end - start
+            print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
             dot_syntax = convert_to_dot_syntax(mst)
             print(dot_syntax)
 
@@ -86,7 +91,11 @@ def main():
             print()
 
             print("Prim's Minimum Spanning Tree")
+            start = time()
             mst = prims_algorithm(graph, 0)
+            end = time()
+            delta = end - start
+            print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
             dot_syntax = convert_to_dot_syntax(mst, True)
             print(dot_syntax)
             filename = "mst_prim_{}.dot".format(counter)
@@ -121,7 +130,11 @@ def main():
             graphs.append(filename)
 
             print("Dijkstra's one-to-all shortest path starting at node 0")
+            start = time()
             dijkstras_dist, dijkstras_pi = dijkstras_algorithm(graph, 0)
+            end = time()
+            delta = end - start
+            print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
             print("d: {}".format(dijkstras_dist))
             print("pi: {}\n".format(dijkstras_pi))
 
@@ -131,7 +144,11 @@ def main():
             dijkstra_out.write("pi: {}\n\n".format(dijkstras_pi))
 
             print("Floyd-Warshall all-pairs shortest path")
+            start = time()
             floyd_warshalls = floyd_warshall(graph)
+            end = time()
+            delta = end - start
+            print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
             output = print_adjacency_matrix(floyd_warshalls)
             print(output)
             print()
@@ -141,7 +158,11 @@ def main():
             floyd_warshall_out.write(output + "\n")
 
             print("Transitive closure")
+            start = time()
             transitive_closure_matrix = transitive_closure(graph)
+            end = time()
+            delta = end - start
+            print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
             output = print_adjacency_matrix(transitive_closure_matrix)
             print(output)
 
