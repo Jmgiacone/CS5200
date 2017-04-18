@@ -165,10 +165,7 @@ def main():
 
         for file in listdir("./"):
             print("Generating graph based on {}".format(file))
-            completed_process = \
-                run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]),
-                    stdout=PIPE, stderr=PIPE, shell=True)
-
+            run("sfdp -Tpng {} -Goverlap=scale -o {}.png".format(file, file[:-4]), stdout=PIPE, stderr=PIPE, shell=True)
 
         print()
         chdir("..")
