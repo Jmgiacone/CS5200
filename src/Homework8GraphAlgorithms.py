@@ -36,7 +36,6 @@ def main():
     # Open up three files: one to hold output of Dijkstra's, one to hold output of Floyd-Warshall, and one for the TC
     dijkstra_out = open(working_directory + "dijkstra_output.txt", "w")
     floyd_warshall_out = open(working_directory + "floyd_warshall_output.txt", "w")
-    transitive_closure_out = open(working_directory + "transitive_closure_output.txt",  "w")
 
     # Generate random graphs
     for n in [10, 20, 30, 40, 50]:
@@ -159,16 +158,21 @@ def main():
 
             print("Transitive closure")
             start = time()
-            transitive_closure_matrix = transitive_closure(graph)
+            transitive_closure_graph = transitive_closure(graph)
             end = time()
             delta = end - start
             print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
-            output = print_adjacency_matrix(transitive_closure_matrix)
-            print(output)
+            dot_syntax = convert_to_dot_syntax(transitive_closure_graph, True, False)
+            print(dot_syntax)
 
-            # Print to file
-            transitive_closure_out.write("Transitive closure matrix of id: {}\n".format(counter))
-            transitive_closure_out.write(output + "\n")
+            filename = "transitive_closure_{}.dot".format(counter)
+
+            # Write the file
+            file = open(folder_directory + filename, "w")
+            file.write(dot_syntax)
+
+            # Add the entry to the list
+            graphs.append(filename)
 
             # Increment the counter
             counter += 1
