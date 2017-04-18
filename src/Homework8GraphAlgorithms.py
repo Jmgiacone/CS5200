@@ -86,7 +86,7 @@ def main():
             print()
 
             print("Prim's Minimum Spanning Tree")
-            mst = prims_algorithm(graph, randrange(n))
+            mst = prims_algorithm(graph, 0)
             dot_syntax = convert_to_dot_syntax(mst, True)
             print(dot_syntax)
             filename = "mst_prim_{}.dot".format(counter)
