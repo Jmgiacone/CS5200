@@ -357,7 +357,7 @@ def create_adjacency_matrix_from_adjacency_list(adj_list):
     return matrix
 
 
-def convert_to_dot_syntax(graph, directed=False):
+def convert_to_dot_syntax(graph, directed=False, weighted=True):
     # The arrows are different depending on whether or not the graph is directed
     text = "strict "
     if directed:
@@ -376,7 +376,12 @@ def convert_to_dot_syntax(graph, directed=False):
     # Loop over the edges
     for u in range(n):
         for v in graph[u]:
-            text += "  {} {} {} [label=\"{}\"];\n".format(u, arrow, v, graph[u][v])
+            text += "  {} {} {}".format(u, arrow, v)
+
+            if weighted:
+                text += " [label=\"{}\"];\n".format(graph[u][v])
+            else:
+                text += ";\n"
 
     # Add in the closing curly brace
     text += "}"
