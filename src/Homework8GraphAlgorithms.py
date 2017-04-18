@@ -51,7 +51,6 @@ def main():
         max_density_directed = max_edges_directed / n
         max_density_undirected = max_edges_undirected / n
 
-        # TODO: Make this configurable
         for i in range(10):
             d = (i + 1) * max_density_undirected / 10
             graph = random_graph(n, d)
