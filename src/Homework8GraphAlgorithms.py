@@ -1,7 +1,7 @@
 from random import randrange, randint, seed
 import sys
 from queue import PriorityQueue
-from math import inf
+from math import inf, isfinite
 from os.path import exists
 from os import makedirs, chdir, listdir
 from subprocess import run, PIPE
@@ -438,7 +438,16 @@ def transitive_closure(graph):
         for neighbor in neighbors:
             copy_graph[i][neighbor] = 1
 
-    return floyd_warshall(copy_graph)
+    matrix = floyd_warshall(copy_graph)
+
+    new_graph = [{} for i in range(len(graph))]
+
+    for i in range(len(new_graph)):
+        for j in range(len(new_graph)):
+            if isfinite(matrix[i][j]):
+                new_graph[i][j] = True
+
+    return new_graph
 
 
 def print_adjacency_matrix(matrix):
