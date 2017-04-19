@@ -343,9 +343,8 @@ def random_graph(num_nodes, density, directed=False):
 
         # If they're not the same node and there isn't already an edge between them
         if start != end and end not in graph[start]:
-            # Add this edge with a random weight in [1, 100]
-            # TODO: Make this configurable
-            weight = randint(1, 100)
+            # Add this edge with a random weight in [-25, 100]
+            weight = randint(-25, 100)
             graph[start][end] = weight
 
             if not directed:
