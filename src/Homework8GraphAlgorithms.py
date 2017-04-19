@@ -321,7 +321,7 @@ def random_graph(num_nodes, density, directed=False):
     # Make it minimally connected
     for i in range(num_nodes - 1):
         # Generate a random weight for this edge
-        weight = randint(1, 100)
+        weight = randint(-25, 100)
 
         # Connect the nodes forward
         graph[i][i + 1] = weight
