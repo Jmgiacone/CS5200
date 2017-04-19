@@ -479,5 +479,10 @@ def print_adjacency_matrix(matrix):
 
     return text
 
+
 if __name__ == '__main__':
+    main_start = time()
     main()
+    main_end = time()
+    main_delta = main_end - main_start
+    print("Total Elapsed time: {} microseconds ({} seconds)".format(main_delta * 1000000, main_delta))
