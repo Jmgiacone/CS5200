@@ -36,6 +36,8 @@ def main():
     # Open up three files: one to hold output of Dijkstra's, one to hold output of Floyd-Warshall, and one for the TC
     dijkstra_out = open(working_directory + "dijkstra_output.txt", "w")
     floyd_warshall_out = open(working_directory + "floyd_warshall_output.txt", "w")
+    mst_prim_out = open(working_directory + "mst_prim_runtime_output.txt", "w")
+    mst_kruskal_out = open(working_directory + "mst_kruskal_output.txt", "w")
 
     # Generate random graphs
     for n in [10, 20, 30, 40, 50]:
@@ -75,6 +77,8 @@ def main():
             end = time()
             delta = end - start
             print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
+            mst_kruskal_out.write("MST of graph {} -> Elapsed time: {} microseconds ({} seconds)\n\n"
+                                  .format(counter, delta * 1000000, delta))
             dot_syntax = convert_to_dot_syntax(mst)
             print(dot_syntax)
 
@@ -95,6 +99,8 @@ def main():
             end = time()
             delta = end - start
             print("Elapsed time: {} microseconds ({} seconds)".format(delta * 1000000, delta))
+            mst_prim_out.write("MST of graph {} -> Elapsed time: {} microseconds ({} seconds)\n\n"
+                               .format(counter, delta * 1000000, delta))
             dot_syntax = convert_to_dot_syntax(mst, True)
             print(dot_syntax)
             filename = "mst_prim_{}.dot".format(counter)
@@ -139,6 +145,8 @@ def main():
 
             # Print to file
             dijkstra_out.write("Digraph id: {}\n".format(counter))
+            dijkstra_out.write("Elapsed time: {} microseconds ({} seconds)\n"
+                               .format(delta * 1000000, delta))
             dijkstra_out.write("d: {}\n".format(dijkstras_dist))
             dijkstra_out.write("pi: {}\n\n".format(dijkstras_pi))
 
@@ -154,6 +162,8 @@ def main():
 
             # Print to file
             floyd_warshall_out.write("Digraph id: {}\n".format(counter))
+            floyd_warshall_out.write("Elapsed time: {} microseconds ({} seconds)\n"
+                                     .format(delta * 1000000, delta))
             floyd_warshall_out.write(output + "\n")
 
             print("Transitive closure")
